@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Mémoire - Traversabilité Urbaine</title>
+		<style>
+			nav {
+				position: fixed;
+				right: -250px;
+				width: 250px;
+				height: 100vh;
+				overflow-y: auto;
+				padding: 20px;
+				background: rgba(147, 214, 84, 0.95);
+				box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+				transition: right 0.3s ease;
+				z-index: 1000;
+			}
+			nav.open {
+				right: 0;
+			}
+			main {
+				margin-right: 40px;
+				background: rgba(209, 239, 149, 0.519);
+				padding: 40px;
+				border-radius: 4px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				text-align: justify;
+			}
+			.chapter {
+				margin-bottom: 3rem;
+				text-align: justify;
+			}
+			.chapter p {
+				text-align: justify;
+				-webkit-hyphens: auto;
+				-ms-hyphens: auto;
+				hyphens: auto;
+			}
+			#toggleToc {
+				position: fixed;
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				cursor: pointer;
+				padding: 10px;
+				background: #93d654;
+				border: none;
+				border-radius: 4px 0 0 4px;
+				color: white;
+				font-size: 16px;
+				margin-bottom: 10px;
+			}
+			#pdf-container {
+				margin-right: 40px;
+				background: rgba(209, 239, 149, 0.519);
+				padding: -40px;
+				border-radius: 4px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);				git init
+				git remote add origin https://github.com/DvGt-dev/Servir-html.git
+				git add .
+				git commit -m "Premier commit"
+				git branch -M main
+				git push -u origin main
+				text-align: justify;
+			}
+			nav ul {
+				list-style: none;
+				padding: 0;
+				margin-top: 10px;
+				font-size: 0.9em;
+			}
+			nav li {
+				margin: 2px 0;
+				line-height: 1.2;
+			}
+			nav a {
+				color: #333;
+				text-decoration: none;
+				display: block;
+				padding: 3px 5px;
+				border-radius: 3px;
+				font-size: 13px;
+				line-height: 1.2;
+			}
+			nav a:hover {
+				background: #f0f0f0;
+			}
+			nav .toc-level-1 {
+				font-size: 14px;
+				line-height: 1.3;
+				font-weight: bold;
+				margin-top: 8px;
+			}
+			nav .toc-level-2 {
+				font-size: 12px;
+				line-height: 1.2;
+				margin-left: 12px;
+				color: #444;
+			}
+			nav .toc-level-3 {
+				font-size: 11px;
+				line-height: 1.1;
+				margin-left: 24px;
+				color: #555;
+			}
+			img {
+				max-width: 100%;
+				height: auto;
+				margin: 1rem 0;
+			}
+			h1,
+			h2,
+			h3 {
+				color: #2c3e50;
+				animation: titleGlow 3s ease-in-out infinite;
+				transition: all 0.3s ease;
+			}
+			h1:hover,
+			h2:hover,
+			h3:hover {
+				text-shadow: 0 0 20px rgba(147, 214, 84, 0.6), 0 0 30px rgba(147, 214, 84, 0.4);
+				transform: scale(1.02);
+			}
+			h1 {
+				font-size: 2.5em;
+			}
+			h2 {
+				font-size: 2em;
+			}
+			h3 {
+				font-size: 1.5em;
+			}
+			@keyframes titleGlow {
+				0% {
+					text-shadow: 0 0 5px rgba(147, 214, 84, 0.2);
+				}
+				50% {
+					text-shadow: 0 0 15px rgba(147, 214, 84, 0.4), 0 0 25px rgba(147, 214, 84, 0.2);
+				}
+				100% {
+					text-shadow: 0 0 5px rgba(147, 214, 84, 0.2);
+				}
+			}
+			code {
+				background: #f8f9fa;
+				padding: 2px 4px;
+				border-radius: 3px;
+			}
+			@media (max-width: 768px) {
+				nav {
+					position: static;
+					width: auto;
+					height: auto;
+					margin-bottom: 20px;
+				}
+				main {
+					margin-left: 0;
+				}
+				/* Ajouter cette règle CSS */
+				::first-letter {
+					color: red;
+				}
+				/* Pour toutes les lettres majuscules */
+				::first-letter {
+					color: red;
+				}
+				/* Pour toutes les lettres majuscules */
+				.chapter *::first-letter {
+					color: red;
+				}
+			}
+			body {
+				/* margin: 0; */
+				/* padding: 0; */
+				font-family: Arial, sans-serif;
+
+				font-family: 'Segoe UI', system-ui, sans-serif;
+				/* line-height: 1.6;
+				letter-spacing: 0.01em;
+				font-size: 16px; */
+				/* paragraphe espace */
+				margin-bottom: 5.5em;
+				/* margin: 0 auto;  */
+				/* padding: 10px; */
+				background: #1f4647b5;
+			}
+
+			.page {
+				display: flex;
+				align-items: flex-start;
+				flex-wrap: wrap;
+			}
+			.page canvas {
+				width: 50%;
+				width: 50%;
+				margin: 10px;
+
+				letter-spacing: 0.01em;
+				font-size: 19px;
+				/* paragraphe espace */
+				margin-bottom: 5.5em;
+			}
+			@media (max-width: 600px) {
+				.page canvas,
+				.page .textLayer {
+					width: 100%;
+				}
+			}
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+	</head>
+	<body>
+		<nav id="navbar">
+			<ul id="tableOfContents"></ul>
+		</nav>
+		<button id="toggleToc">☰</button>
+		<main id="content"></main>
+		<div id="pdf-container"></div>
+
+		<script>
+			const chapters = [
+				{
+					id: '3',
+					title: 'Stage professionnel',
+					path: '/3.md'
+				},
+				{ id: '4', title: 'Cas bruxellois', path: '/4.md' },
+				{ id: '5', title: 'Conclusion', path: '/5.md' },
+				{ id: '7', title: 'Bibliographie', path: '/7.md' },
+				{ id: '8', title: 'Annexes', path: '/8.md' }
+			];
+
+			async function loadMarkdownContent() {
+				for (const chapter of chapters) {
+					try {
+						const response = await fetch(chapter.path);
+						if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+						const markdown = await response.text();
+
+						const div = document.createElement('div');
+						div.id = chapter.id;
+						div.className = 'chapter';
+
+						div.innerHTML = `
+									${marked.parse(markdown)}
+									`;
+
+						document.getElementById('content').appendChild(div);
+
+						const toc = document.getElementById('tableOfContents');
+						const subHeadings = div.querySelectorAll('h2, h3');
+						subHeadings.forEach((heading, subIndex) => {
+							const subLi = document.createElement('li');
+							const subA = document.createElement('a');
+							subA.href = `#${chapter.id}-${subIndex}`;
+							subA.textContent = heading.textContent;
+							subA.className = `toc-level-${heading.tagName[1]}`;
+							subA.onclick = (e) => {
+								e.preventDefault();
+								heading.scrollIntoView({ behavior: 'smooth' });
+							};
+							subLi.appendChild(subA);
+							toc.appendChild(subLi);
+							heading.id = `${chapter.id}-${subIndex}`;
+						});
+					} catch (error) {
+						console.error(`Erreur lors du chargement de ${chapter.path}:`, error);
+
+						const div = document.createElement('div');
+						div.id = chapter.id;
+						div.className = 'chapter';
+						div.innerHTML = `
+									<p class="error">Erreur lors du chargement du contenu: ${error.message}</p>
+									`;
+
+						document.getElementById('content').appendChild(div);
+					}
+				}
+			}
+
+			const toc = document.getElementById('tableOfContents');
+			chapters.forEach((chapter) => {
+				const li = document.createElement('li');
+				const a = document.createElement('a');
+				a.href = `#${chapter.id}`;
+				a.textContent = chapter.title;
+				a.className = 'toc-level-1';
+				a.onclick = (e) => {
+					e.preventDefault();
+					document.getElementById(chapter.id)?.scrollIntoView({ behavior: 'smooth' });
+				};
+				li.appendChild(a);
+				toc.appendChild(li);
+			});
+
+			function colorUppercaseLetters() {
+				const chapters = document.querySelectorAll('.chapter');
+				chapters.forEach((chapter) => {
+					const textNodes = getTextNodes(chapter);
+					textNodes.forEach((node) => {
+						const sp = document.createElement('sp');
+						const $$$ = [
+							'#7F4090',
+							'#0000FF',
+							'#FFD700',
+							'#008000',
+							'#4B0082',
+							'#800080',
+							'#FFA500',
+							'#FF1493',
+							'#00FFFF',
+							'#32CD32',
+							'#FF4500',
+							'#8A2BE2',
+							'#2E8B57',
+							'#DC143C',
+							'#20B2AA',
+							'#9370DB',
+							'#F08080',
+							'#6495ED',
+							'#DDA0DD',
+							'#FF69B4',
+							'#CD853F'
+						];
+
+						sp.innerHTML = node.nodeValue
+							.replace(/([A-Z])/g, `<sp style="color: ${$$$[0]};">$1</sp>`)
+							.replace(/([(])/g, `<sp style="color: ${$$$[1]};">$1</sp>`)
+							.replace(/([)])/g, `<sp style="color: ${$$$[2]};">$1</sp>`)
+							.replace(/\(([^)]*)\)/g, `<sp style="color: ${$$$[1]};">($1)</sp>`)
+							.replace(/\b(\d+)\b/g, `<sp style="color: ${$$$[3]};">$1</sp>`)
+							.replace(/\b(\d{4})\b/g, `<sp style="color: ${$$$[3]};">$1</sp>`)
+							.replace(/«([^»]*)»/g, (match) => `<sp style="color: ${$$$[8]};">${match}</sp>`)
+							.replace(/([«])/g, `<sp style="color: ${$$$[5]};">$1</sp>`)
+							.replace(/([»])/g, `<sp style="color: ${$$$[6]};">$1</sp>`)
+							.replace(/([,])/g, `<sp style="color: ${$$$[7]};">$1</sp>`)
+							.replace(/([.])/g, `<sp style="color: ${$$$[8]};">$1</sp>`)
+							.replace(/([!])/g, `<sp style="color: ${$$$[12]};">$1</sp>`)
+							.replace(/([…])/g, `<sp style="color: $[13]};">$1</sp>`)
+							.replace(/([—])/g, `<sp style="color: ${$$$[14]};">$1</sp>`)
+							.replace(/([–])/g, `<sp style="color: ${$$$[15]};">$1</sp>`)
+							.replace(/(['])/g, `<sp style="color: ${$$$[18]};">$1</sp>`)
+							.replace(/(['])/g, `<sp style="color: ${$$$[19]};">$1</sp>`)
+							.replace(/([—])/g, `<sp style="color: ${$$$[18]};">{$$$$1</sp>`)
+							.replace(/([–])/g, `<sp style="color: ${$$$[18]};">$1</sp>`)
+							.replace('\?', `<sp style="color: ${$$$[11]};">?</sp>`)
+							.replace('\!', `<sp style="color: ${$$$[12]};">!</sp>`)
+							.replace(/'/g, (match) => `<sp style="color: ${$$$[14]};">${match}</sp>`)
+							.replace(',', `<sp style="color: ${$$$[10]};">,</sp>`);
+
+						node.parentNode.replaceChild(sp, node);
+					});
+				});
+			}
+
+			function getTextNodes(node) {
+				const textNodes = [];
+				function recurse(node) {
+					if (node.nodeType === 3) {
+						textNodes.push(node);
+					} else {
+						for (let i = 0; i < node.childNodes.length; i++) {
+							recurse(node.childNodes[i]);
+						}
+					}
+				}
+				recurse(node);
+				return textNodes;
+			}
+
+			loadMarkdownContent().then(colorUppercaseLetters);
+
+			document.getElementById('toggleToc').addEventListener('click', () => {
+				const navbar = document.getElementById('navbar');
+				const toggleButton = document.getElementById('toggleToc');
+				navbar.classList.toggle('open');
+				if (navbar.classList.contains('open')) {
+					toggleButton.textContent = '×';
+				} else {
+					toggleButton.textContent = '☰';
+				}
+			});
+
+			document.getElementById('navbar').addEventListener('mouseenter', () => {
+				document.getElementById('navbar').classList.add('open');
+			});
+			document.getElementById('navbar').addEventListener('mouseleave', () => {
+				document.getElementById('navbar').classList.remove('open');
+			});
+
+			const url = '37texte_colore.pdf';
+
+			const pdfjsLib = window['pdfjs-dist/build/pdf'];
+			pdfjsLib.GlobalWorkerOptions.workerSrc =
+				'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+			const container = document.getElementById('pdf-container');
+
+			pdfjsLib
+				.getDocument(url)
+				.promise.then((pdf) => {
+					for (let i = 1; i <= pdf.numPages; i++) {
+						pdf
+							.getPage(i)
+							.then((page) => {
+								const scale = 1.3;
+								const viewport = page.getViewport({ scale });
+								const pageDiv = document.createElement('div');
+								pageDiv.className = 'page';
+
+								const canvas = document.createElement('canvas');
+								canvas.width = viewport.width;
+								canvas.height = viewport.height;
+								const ctx = canvas.getContext('2d');
+
+								const textLayer = document.createElement('div');
+								textLayer.className = 'textLayer';
+
+								pageDiv.appendChild(canvas);
+								pageDiv.appendChild(textLayer);
+								container.appendChild(pageDiv);
+
+								const renderContext = {
+									canvasContext: ctx,
+									viewport: viewport
+								};
+
+								page
+									.render({ canvasContext: ctx, viewport })
+									.promise.then(() => {
+										return page.getTextContent();
+									})
+									.then((textContent) => {
+										// Create container for rendered text
+										const textDivs = [];
+
+										// First pass: position all text elements
+										pdfjsLib.renderTextLayer({
+											textContent,
+											container: textLayer,
+											viewport,
+											textDivs
+										});
+
+										// Second pass: apply colored text formatting
+										textContent.items.forEach((item, index) => {
+											if (textDivs[index]) {
+												const $$$ = [
+													'#7F4090',
+													'#0000FF',
+													'#FFD700',
+													'#008000',
+													'#4B0082',
+													'#800080',
+													'#FFA500',
+													'#FF1493',
+													'#00FFFF',
+													'#32CD32',
+													'#FF4500',
+													'#8A2BE2',
+													'#2E8B57',
+													'#DC143C',
+													'#20B2AA',
+													'#9370DB',
+													'#F08080',
+													'#6495ED',
+													'#DDA0DD',
+													'#FF69B4',
+													'#CD853F'
+												];
+
+												let coloredText = item.str
+													.replace(/([A-Z])/g, `<sp style="color: ${$$$[0]};">$1</sp>`)
+													.replace(/([(])/g, `<sp style="color: ${$$$[1]};">$1</sp>`)
+													.replace(/([)])/g, `<sp style="color: ${$$$[2]};">$1</sp>`)
+													.replace(/\(([^)]*)\)/g, `<sp style="color: ${$$$[1]};">($1)</sp>`)
+													.replace(/\b(\d+)\b/g, `<sp style="color: ${$$$[3]};">$1</sp>`)
+													.replace(/\b(\d{4})\b/g, `<sp style="color: ${$$$[3]};">$1</sp>`)
+													.replace(
+														/«([^»]*)»/g,
+														(match) => `<sp style="color: ${$$$[8]};">${match}</sp>`
+													)
+													.replace(/([«])/g, `<sp style="color: ${$$$[5]};">$1</sp>`)
+													.replace(/([»])/g, `<sp style="color: ${$$$[6]};">$1</sp>`)
+													.replace(/([,])/g, `<sp style="color: ${$$$[7]};">$1</sp>`)
+													.replace(/([.])/g, `<sp style="color: ${$$$[8]};">$1</sp>`)
+													.replace(/([!])/g, `<sp style="color: ${$$$[12]};">$1</sp>`)
+													.replace(/([…])/g, `<sp style="color: $[13]};">$1</sp>`)
+													.replace(/([—])/g, `<sp style="color: ${$$$[14]};">$1</sp>`)
+													.replace(/([–])/g, `<sp style="color: ${$$$[15]};">$1</sp>`)
+													.replace(/(['])/g, `<sp style="color: ${$$$[18]};">$1</sp>`)
+													.replace(/(['])/g, `<sp style="color: ${$$$[19]};">$1</sp>`)
+													.replace(/([—])/g, `<sp style="color: ${$$$[18]};">{$$$$1</sp>`)
+													.replace(/([–])/g, `<sp style="color: ${$$$[18]};">$1</sp>`)
+													.replace('\?', `<sp style="color: ${$$$[11]};">?</sp>`)
+													.replace('\!', `<sp style="color: ${$$$[12]};">!</sp>`)
+													.replace(/'/g, (match) => `<sp style="color: ${$$$[14]};">${match}</sp>`)
+													// .replace(/[:]/g, (match) => `<sp style="color: ${$$$[10]};">${match}</sp>`)
+													// .replace(/[;]/g, `<sp style="color: ${$$$[15]};">;</sp>`)
+													// .replace(/[:]/g, `<sp style="color: ${$$$[10]};">:</sp>`)
+													.replace(',', `<sp style="color: ${$$$[10]};">,</sp>`);
+
+												textDivs[index].innerHTML = coloredText;
+											}
+										});
+									});
+							})
+							.catch((err) => {
+								console.error('Erreur lors du rendu de la page:', err);
+							});
+					}
+				})
+				.catch((err) => {
+					console.error('Erreur lors du chargement du PDF:', err);
+				});
+		</script>
+	</body>
+</html>
+
+<!-- git init
+git remote add origin https://github.com/DvGt-dev/Servir-html.git
+git add .
+git commit -m "Premier commit"
+git branch -M main
+git push -u origin main -->
